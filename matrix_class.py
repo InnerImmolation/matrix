@@ -84,8 +84,14 @@ class Matrix:
                     return False
         return True
 
+    @property
+    def is_identity(self):
+        return True if (len(self.__m) == 1 and len(self.__m[0]) == 1) else False
+    @property
+    def is_square(self):
+        return True if (len(self.__m) == len(self.__m[0]) ) else False
 
 
-m1 = Matrix(2, 2, 10)
+m1 = Matrix(1, 2, 10)
 m2 = Matrix(2, 2, 10, [[0, 1], [0, 1]])
-print(m2.is_zero)
+print(m1.is_identity)

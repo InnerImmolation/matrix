@@ -25,18 +25,20 @@ class Matrix:
         self.__row = row
         self.__col = col
         self.__num = num
-        if array is not None:
+        if array is not None and self.__row == len(array) and self.__col == len(array[0]):
             self.__m = array
+        elif array is not None and self.__row != len(array) and self.__col != len(array[0]):
+            raise ValueError("Размер матрицы не соответствует указанным значениям")
         else:
             self.__m = [[random.randint(0, self.__num) for n in range(self.__col)] for n in range(self.__row)]
 
     def __add__(self, other):
         min_len = min(len(self.__m), len(other.__m))
-        return Matrix(1, 1, 1, [list_sum(self.__m[i], other.__m[i]) for i in range(min_len)]).matrix_print
+        return Matrix(len(self.__m[0]), min_len, 1, [list_sum(self.__m[i], other.__m[i]) for i in range(min_len)]).matrix_print
 
     def __sub__(self, other):
         min_len = min(len(self.__m), len(other.__m))
-        return Matrix(1, 1, 1, [list_diff(self.__m[i], other.__m[i]) for i in range(min_len)]).matrix_print
+        return Matrix(len(self.__m[0]), min_len, 1, [list_diff(self.__m[i], other.__m[i]) for i in range(min_len)]).matrix_print
 
     def __mul__(self, other):
         s = 0
@@ -56,7 +58,7 @@ class Matrix:
                     s = 0
                 m3.append(t)
                 t = []
-        return Matrix(1, 1, 1, m3).matrix_print
+        return Matrix(len(self.__m[0]), len(self.__m), 1, m3).matrix_print
 
     @property
     def matrix_print(self):
@@ -66,7 +68,7 @@ class Matrix:
     def matrix_transpose(self):
         rows = len(self.__m)
         column = len(self.__m[0])
-        return Matrix(1, 1, 1, [sum([[self.__m[j][i]] for j in range(column)], []) for i in range(rows)]).matrix_print
+        return Matrix(rows, column, 1, [sum([[self.__m[j][i]] for j in range(column)], []) for i in range(rows)]).matrix_print
 
     @property
     def is_diagonal(self):
@@ -90,8 +92,3 @@ class Matrix:
     @property
     def is_square(self):
         return True if (len(self.__m) == len(self.__m[0]) ) else False
-
-
-m1 = Matrix(1, 2, 10)
-m2 = Matrix(2, 2, 10, [[0, 1], [0, 1]])
-print(m1.is_identity)

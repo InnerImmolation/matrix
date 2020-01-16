@@ -11,5 +11,3 @@ class Horizontal_vector(Matrix):
             self.__m = array
         else:
             self.__m = [random.randint(0, self.__num) for n in range(self.__col)]
-
-h_v = Horizontal_vector(3, 10)

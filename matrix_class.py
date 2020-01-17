@@ -1,6 +1,5 @@
 import random
-
-
+import os
 def list_sum(list1, list2):
     min_len = min(len(list1), len(list2))
     return [list1[i] + list2[i] for i in range(min_len)]
@@ -79,6 +78,20 @@ class Matrix:
         return True
 
     @property
+    def read_from_file(self, path):
+        matrix = open(path, 'r')
+        result = []
+        for line in matrix:
+            result.append([x for x in line])
+        return
+
+    @property
+    def export_in_file(self):
+        with open('result_matrix.txt', 'w') as outfile:
+            outfile.write(self.matrix_print)
+        return 'Export in {}\\data.txt'.format(os.path.abspath(os.curdir))
+
+    @property
     def is_zero(self):
         for line in self.__m:
             for x in line:
@@ -92,3 +105,10 @@ class Matrix:
     @property
     def is_square(self):
         return True if (len(self.__m) == len(self.__m[0]) ) else False
+
+def read_from_file(path):
+    matrix = open(path, 'r')
+    result = []
+    for line in matrix:
+        result.append([x for x in line.strip().replace(' ', '')])
+    return Matrix(len(result), len(result[0]), 0, result)
